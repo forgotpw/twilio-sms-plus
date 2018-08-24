@@ -34,5 +34,7 @@ export TWILIO_TEST_TO_NUMBER=$( \
     --profile $1)
 echo "TWILIO_TEST_TO_NUMBER: $TWILIO_TEST_TO_NUMBER"
 
+export TWILIO_TRANSCRIPT_LOG_S3BUCKET='forgotpw-userdata-dev'
+
 echo "Running mocha"
 mocha

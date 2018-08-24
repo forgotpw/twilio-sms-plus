@@ -1,22 +1,28 @@
 # Twilio SMS Plus
 
-A library to send SMS messages with Twilio plus some added functionality such as:
+A library to send SMS messages with Twilio *plus* some added functionality such as:
 
 * Converting phone number to E164 format
 * Logging all SMS messages to an AWS S3 bucket
+
+## Installation
+
+```shell
+npm install --save twilio-ssm-plus
+```
 
 ## Usage
 
 Example usage:
 
 ```javascript
-const logS3keyPrefix = 'users/6095551212/transcript'
+const toPhoneNumber = '6095551212'
 const params = {
   textMessage: 'hello world!',
-  toPhoneNumber: '6095551212',
+  toPhoneNumber: toPhoneNumber,
   fromPhoneNumber: '2125551212',
-  logS3bucket: 'twilio-logs',
-  logS3keyPrefix: logS3keyPrefix
+  logS3bucket: 'twilio-logs-dev',
+  logS3keyPrefix: `users/${toPhoneNumber}/transcript`
 }
 
 const twilioPlus = new TwilioSmsPlus({
