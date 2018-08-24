@@ -12,7 +12,7 @@ describe('twilioSmsPlus', function() {
       let result = await twilioPlus.sendTextMessage({
         textMessage: 'unit test text message from mocha',
         toPhoneNumber: process.env.TWILIO_TEST_TO_NUMBER || '609-555-1212',
-        fromPhoneNumber: process.env.TWILIO_FROM_NUMBER || '609-438-8881',
+        fromPhoneNumber: process.env.TWILIO_FROM_NUMBER,
         logS3bucket: null,
         logS3keyPrefix: null
       })
@@ -31,7 +31,7 @@ describe('twilioSmsPlus', function() {
       let result = await twilioPlus.sendTextMessage({
         textMessage: 'this test from mocha is logged',
         toPhoneNumber: toPhoneNumber,
-        fromPhoneNumber: process.env.TWILIO_FROM_NUMBER || '609-438-8881',
+        fromPhoneNumber: process.env.TWILIO_FROM_NUMBER,
         logS3bucket: process.env.TWILIO_TRANSCRIPT_LOG_S3BUCKET,
         logS3keyPrefix: `users/${toPhoneNumber}/transcript`
       })
