@@ -16,6 +16,7 @@ npm install --save twilio-ssm-plus
 Example usage:
 
 ```javascript
+const TwilioSmsPlus = require('twilio-sms-plus')
 const toPhoneNumber = '6095551212'
 const params = {
   textMessage: 'hello world!',
