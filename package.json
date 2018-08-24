@@ -5,6 +5,12 @@
   "main": "index.js",
   "author": "dwkerwin@gmail.com",
   "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/forgotpw/twilio-sms-plus.git"
+  },
+  "keywords": ["twilio", "sms"],
+  "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.292.0",
     "bunyan": "^1.8.12",

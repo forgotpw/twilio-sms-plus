@@ -49,3 +49,7 @@ test.sh requires an argument with the name of the AWS profile used for credentia
 $ chmod +x ./test.sh
 $ ./test.sh myprofilenamehere
 ```
+
+## License
+
+MIT
