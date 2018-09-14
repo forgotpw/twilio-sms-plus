@@ -15,12 +15,28 @@ class TwilioSmsPlus {
     const PNF = require('google-libphonenumber').PhoneNumberFormat;
     const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 
-    const fromNumber = phoneUtil.parseAndKeepRawInput(params.fromPhoneNumber, 'US');
-    const fromNumberE164 = phoneUtil.format(fromNumber, PNF.E164)
+    let fromNumber = null
+    let fromNumberE164 = null
+    try {
+      fromNumber = phoneUtil.parseAndKeepRawInput(params.fromPhoneNumber, 'US');
+      fromNumberE164 = phoneUtil.format(fromNumber, PNF.E164)
+    }
+    catch (err) {
+      logger.error(`Error converting fromPhoneNumber ${params.fromPhoneNumber} to E164 format:`, err)
+      return { success: false }
+    }
     logger.trace(`Converted source phone number ${params.fromPhoneNumber} to E164 format: ${fromNumberE164}`)
 
-    const toNumber = phoneUtil.parseAndKeepRawInput(params.toPhoneNumber, 'US');
-    const toNumberE164 = phoneUtil.format(toNumber, PNF.E164)
+    let toNumber = null
+    let toNumberE164 = null
+    try {
+      toNumber = phoneUtil.parseAndKeepRawInput(params.toPhoneNumber, 'US');
+      toNumberE164 = phoneUtil.format(toNumber, PNF.E164)
+    }
+    catch (err) {
+      logger.error(`Error converting toPhoneNumber ${params.toPhoneNumber} to E164 format:`, err)
+      return { success: false }
+    }
     logger.debug(`Converted target phone number ${params.toPhoneNumber} to E164 format: ${toNumberE164}`)
 
     let message
