@@ -44,7 +44,7 @@ The tests require the following SSM parameters to exist in the AWS account:
 /fpw/TWILIO_TEST_TO_NUMBER
 ```
 
-test.sh requires an argument with the name of the AWS profile used for credentials.  The test script in package.json indicates a profile named "fpwdev", but this can be changed as:
+Execute the test as follows:
 
 ```shell
 # pip install iam-starter ssm-starter
@@ -52,8 +52,8 @@ export TWILIO_TRANSCRIPT_LOG_S3BUCKET='forgotpw-userdata-dev'
 export AWS_REGION=us-east-1
 unset AWS_ENV
 iam-starter \
-  --role role-ops-devops \
-  --profile fpwdev \
+  --role my-iam-role-with-access \
+  --profile profile-with-access-to-assume-role \
   --command ssm-starter \
   --ssm-name /fpw/ \
   --command mocha
