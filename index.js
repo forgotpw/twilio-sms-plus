@@ -62,39 +62,13 @@ class TwilioSmsPlus {
 
     let s3key = null
     if (params.logS3bucket && params.logS3keyPrefix) {
-      try {
-        s3key = await logToS3(params)
-      }
-      catch (err) {
-        logger.error(`Error updating s3://${params.logS3bucket}/${s3key}:`, err)
-      }
+      s3key = await logToS3(params)
     } else {
       logger.debug('Skipping transcript logging to S3.')
     }
 
     return { success: true, twilioMessageSid: message.sid, logS3Key: s3key }
   }
-
-  /*
-  async getCountryCode(phoneNumber) {
-    const {promisify} = require("es6-promisify");
-
-    const LookupsClient = require('twilio').LookupsClient(this.twilioAccountSid, this.twilioAuthToken);
-    const client = new LookupsClient(accountSid, authToken);
-
-    try {
-      const phoneNumbers = promisify(client.phoneNumbers(phoneNumber).get)
-      let countryCode
-      let number = await phoneNumbers()
-      logger.debug(`Twilio lookup service produced country code ${number.country_code} for ${toPhoneNumber}`);
-      return number.country_code
-    }
-    catch (err) {
-      logger.error('Error using Twilio phone number lookup: ' + err)
-    }
-  }
-  */
-
 }
 
 async function logToS3(params) {
@@ -106,18 +80,22 @@ async function logToS3(params) {
     fromPhoneNumber: params.fromPhoneNumber
   }
 
-  logger.debug(`Writing text transcript to ${s3key}`)
+  logger.debug(`Writing text transcript to s3://${params.logS3bucket}/${s3key}`)
 
-  const s3 = new AWS.S3();
-  let resp = await s3.putObject({
-    Bucket: params.logS3bucket,
-    Key: s3key,
-    ServerSideEncryption: 'AES256',
-    Body: JSON.stringify(message),
-    ContentType: 'application/json'
-  }).promise()
-  logger.trace(`S3 PutObject response for s3://${params.logS3bucket}/${s3key}:`, resp)
-
+  try {
+    const s3 = new AWS.S3();
+    let resp = await s3.putObject({
+      Bucket: params.logS3bucket,
+      Key: s3key,
+      ServerSideEncryption: 'AES256',
+      Body: JSON.stringify(message),
+      ContentType: 'application/json'
+    }).promise()
+    logger.trace(`S3 PutObject response for s3://${params.logS3bucket}/${s3key}:`, resp)
+  }
+  catch (err) {
+    logger.error(`Error updating s3://${params.logS3bucket}/${s3key}:`, err)
+  }
   return s3key
 }
 

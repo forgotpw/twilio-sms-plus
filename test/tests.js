@@ -33,7 +33,7 @@ describe('twilioSmsPlus', function() {
         toPhoneNumber: toPhoneNumber,
         fromPhoneNumber: process.env.TWILIO_FROM_NUMBER,
         logS3bucket: process.env.TWILIO_TRANSCRIPT_LOG_S3BUCKET,
-        logS3keyPrefix: `users/${toPhoneNumber}/transcript`
+        logS3keyPrefix: `transcript/${toPhoneNumber}`
       })
       expect(result.success).to.equal(true)
       expect(result.twilioMessageSid).to.be.a('string')

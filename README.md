@@ -47,8 +47,16 @@ The tests require the following SSM parameters to exist in the AWS account:
 test.sh requires an argument with the name of the AWS profile used for credentials.  The test script in package.json indicates a profile named "fpwdev", but this can be changed as:
 
 ```shell
-$ chmod +x ./test.sh
-$ ./test.sh myprofilenamehere
+# pip install iam-starter ssm-starter
+export TWILIO_TRANSCRIPT_LOG_S3BUCKET='forgotpw-userdata-dev'
+export AWS_REGION=us-east-1
+unset AWS_ENV
+iam-starter \
+  --role role-ops-devops \
+  --profile fpwdev \
+  --command ssm-starter \
+  --ssm-name /fpw/ \
+  --command mocha
 ```
 
 ## License
