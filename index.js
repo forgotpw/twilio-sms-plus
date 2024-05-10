@@ -4,14 +4,14 @@ const path = require('path');
 
 class TwilioSmsPlus {
   constructor(config) {
-    this.twilioAccountSid = config.twilioAccountSid
-    this.twilioAuthToken = config.twilioAuthToken
+    this.twilioAccountSid = config.twilioAccountSid;
+    this.twilioClient = require('twilio')(config.twilioAccountSid, config.twilioAuthToken);
   }
 
   async sendTextMessage(params) {
     logger.info(`Texting ${params.textMessage.length} chars message to ${params.toPhoneNumber} ...`)
 
-    const twilio = require('twilio')(this.twilioAccountSid, this.twilioAuthToken);
+    
     const PNF = require('google-libphonenumber').PhoneNumberFormat;
     const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 
@@ -41,7 +41,7 @@ class TwilioSmsPlus {
 
     let message
     try {
-      message = await twilio.messages
+      message = await this.twilioClient.messages
       .create({
          body: params.textMessage,
          from: fromNumberE164,
@@ -69,6 +69,27 @@ class TwilioSmsPlus {
 
     return { success: true, twilioMessageSid: message.sid, logS3Key: s3key }
   }
+
+  // Check if a phone number is opted out of receiving SMS messages, such
+  // as if the user has replied "STOP" to a previous message.
+  async isOptedOut(phoneNumber) {
+    try {
+      const response = await this.twilioClient.messaging
+        .services(this.twilioAccountSid)
+        .phoneNumbers(phoneNumber)
+        .fetch();
+      return response ? !response.capabilities['SMS'] : false;
+    } catch (error) {
+      if (error.code === 20404) {
+        // Number not found in the list, meaning not opted out
+        return false;
+      } else {
+        console.error('Error checking opt-out status:', error);
+        return true; // Consider unknown status as opted out
+      }
+    }
+  }
+
 }
 
 async function logToS3(params) {

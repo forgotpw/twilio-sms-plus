@@ -43,6 +43,26 @@ describe('twilioSmsPlus', function() {
     });
   });
 
+  describe('isOptedOut', function() {
+    // it('should return true when a number has opted out', async function() {
+    //   let twilioPlus = new TwilioSmsPlus({
+    //     twilioAccountSide: process.env.TWILIO_ACCOUNT_SID,
+    //     twilioAuthToken: process.env.TWILIO_AUTH_TOKEN
+    //   })
+    //   let result = await twilioPlus.isOptedOut('we need an opted out number to test this')
+    //   expect(result).to.equal(true)
+    // })
+
+    it('should return false when a number has not opted out', async function() {
+      let twilioPlus = new TwilioSmsPlus({
+        twilioAccountSide: process.env.TWILIO_ACCOUNT_SID,
+        twilioAuthToken: process.env.TWILIO_AUTH_TOKEN
+      })
+      let result = await twilioPlus.isOptedOut('609-555-1234')
+      expect(result).to.equal(false)
+    })
+  })
+
   // describe('getCountryCode', function() {
   //   it('should return US for a USA based number', async function() {
   //     let countryCode = await smsUtil.getCountryCode(

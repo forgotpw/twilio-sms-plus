@@ -1,6 +1,6 @@
 {
   "name": "twilio-sms-plus",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A library to send SMS messages with Twilio plus some added functionality.",
   "main": "index.js",
   "author": "dwkerwin@gmail.com",
@@ -24,6 +24,6 @@
     "mocha": "^5.2.0"
   },
   "scripts": {
-    "test": "chmod +x ./test.sh && /bin/bash ./test.sh fpwdev"
+    "test": "chmod +x ./test.sh && /bin/bash ./test.sh fpw"
   }
 }
