@@ -23,7 +23,9 @@ const params = {
   toPhoneNumber: toPhoneNumber,
   fromPhoneNumber: '2125551212',
   logS3bucket: 'twilio-logs-dev',
-  logS3keyPrefix: `users/${toPhoneNumber}/transcript`
+  logS3keyPrefix: `users/${toPhoneNumber}/transcript`,
+  // Optional: Include messagingServiceSid for using a specific messaging service
+  messagingServiceSid: 'MGXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 }
 
 const twilioPlus = new TwilioSmsPlus({

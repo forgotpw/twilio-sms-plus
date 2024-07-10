@@ -41,12 +41,19 @@ class TwilioSmsPlus {
 
     let message
     try {
-      message = await this.twilioClient.messages
-      .create({
-         body: params.textMessage,
-         from: fromNumberE164,
-         to: toNumberE164
-       })
+      const messageParams = {
+        body: params.textMessage,
+        to: toNumberE164,
+      };
+      
+      // Use messaging_service_sid if provided, else use fromNumberE164
+      if (params.messagingServiceSid) {
+        messageParams.messagingServiceSid = params.messagingServiceSid;
+      } else {
+        messageParams.from = fromNumberE164;
+      }
+      
+      message = await this.twilioClient.messages.create(messageParams);
     }
     catch (err) {
       // https://www.twilio.com/docs/api/errors
